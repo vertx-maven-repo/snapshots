@@ -23,5 +23,5 @@ jobs:
           package-name: ${{ matrix.package }}
           package-type: maven
           owner: ${{ github.repository_owner }}
-          min-versions-to-keep: 0
+          min-versions-to-keep: 1
           token: ${{ secrets.GITHUB_TOKEN }}
