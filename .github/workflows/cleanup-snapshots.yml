@@ -1,0 +1,28 @@
+name: Cleanup Snapshot Packages
+
+on:
+  workflow_dispatch:
+
+permissions:
+  packages: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package:
+          - io.vertx.vertx-core
+          - io.vertx.vertx-codegen
+          - io.vertx.vertx-core-logging
+          - io.vertx.vertx-core-aggregator
+    steps:
+      - name: Delete old snapshot versions of ${{ matrix.package }}
+        uses: actions/delete-package-versions@v5
+        with:
+          package-name: ${{ matrix.package }}
+          package-type: maven
+          owner: ${{ github.repository_owner }}
+          min-versions-to-keep: 1
+          ignore-versions: '^(?!.*SNAPSHOT).*$'
+          token: ${{ secrets.GITHUB_TOKEN }}
